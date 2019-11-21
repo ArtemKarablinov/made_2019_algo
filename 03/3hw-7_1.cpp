@@ -23,8 +23,8 @@ struct Node {
     int size = 0; 
     int key;
     int priority;
-    Node *left = nullptr;
-    Node *right = nullptr;
+    Node* left = nullptr;
+    Node* right = nullptr;
 };
 
 using Callback = std::function<void(Node *node)>;
@@ -46,11 +46,13 @@ public:
 void Treap:: split(Node* node, int key, Node* &left, Node* &right) {
     if (!node) {
         left = right = nullptr;
-    } else if (node->key <= key) {
+    }
+    else if (node->key <= key) {
         split(node->right, key, node->right, right);
         left = node;
         left->size = (left->left ? left->left->size + 1 : 0) + (left->right ? left->right->size + 1 : 0);
-    } else {
+    } 
+    else {
         split(node->left, key, left, node->left);
         right = node;
         right->size = (right->right ? right->right->size + 1 : 0) + (right->left ? right->left->size + 1 : 0);
@@ -80,13 +82,16 @@ int Treap:: search_key(Node* node, int index)  {
     int cur_index = node->right ? node->right->size + 1 : 0;
     if (index == cur_index) {
         return node->key;
-    } else if (index > cur_index) {
+    } 
+    else if (index > cur_index) {
         assert(node->left);
         return search_key(node->left, index - cur_index - 1);
-    } else if (index < cur_index) {
+    } 
+    else if (index < cur_index) {
         assert(node->right);
         return search_key(node->right, index);
-    } else {
+    } 
+    else {
         throw std::invalid_argument("No index found");
     }
 }
@@ -95,13 +100,16 @@ int Treap::search_index(Node* node, int key) {
     int cur_index = node->right ? node->right->size + 1 : 0;
     if (key == node->key){
         return cur_index;
-    } else if (key < node->key) {
+    } 
+    else if (key < node->key) {
         assert(node->left);
         return cur_index + 1 + search_index(node->left, key);
-    } else if (key > node->key) {
+    } 
+    else if (key > node->key) {
         assert(node->right);
         return search_index(node->right, key);
-    } else {
+    } 
+    else {
         throw std::invalid_argument("No key found");
     }
 }
@@ -128,7 +136,8 @@ void Treap:: remove(int id) {
 }
 
 void Treap::traverse(Node* node, const Callback &callback) {
-    if (!node) return;
+    if (!node) 
+        return;
     traverse(node->left, callback);
     traverse(node->right, callback);
     callback(node);
@@ -148,7 +157,8 @@ int main() {
         std:: cin >> command >> command_value;
         if (command == 1) {
             std:: cout << treap.add(command_value) << endl;
-        } else if (command == 2) {
+        } 
+        else if (command == 2) {
             treap.remove(command_value);
         }
     }
