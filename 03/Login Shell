@@ -1,0 +1,138 @@
+ruagup3@n-msk-macgup3 03 $ ls                                                                                                                     
+3hw-6_2         3hw-6_2.cpp
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $                                             
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $                                              
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ды                                          
+bash: ды: command not found
+ruagup3@n-msk-macgup3 03 $ ls
+3hw-6_2         3hw-6_2.cpp
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+ruagup3@n-msk-macgup3 03 $                                             
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+0,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+2 43
+2
+Segmentation fault: 11
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $                                             
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ls
+3hw-6_2         3hw-6_2.cpp
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+2
+3
+1
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+3
+1 
+2
+3
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+3
+1
+2
+3
+0,0,-1255997424,
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ./
+bash: ./: is a directory
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+3
+1
+2
+3
+-125599742414,-1255997424,0,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+-1255997424-1255997424,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+2
+3
+4
+00,0,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+Segmentation fault: 11
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2                    
+2
+3
+Segmentation fault: 11
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+Segmentation fault: 11
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+1
+2
+22,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+3
+1
+2
+3
+11,2,3,
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+2
+1
+2
+11,2,
+ruagup3@n-msk-macgup3 03 $ ls
+3hw-6_2         3hw-6_2.cpp
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+2
+1
+2
+11,2,
+ruagup3@n-msk-macgup3 03 $ 
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+4
+1
+2
+3
+4
+11,2,3,4,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2 
+4
+3
+1
+2
+9
+3,2,9,
+ruagup3@n-msk-macgup3 03 $ ./3hw-6_2                    
+5
+1
+5
+2
+3
+2
+1,2,2,3,5,
+ruagup3@n-msk-macgup3 03 $ 
