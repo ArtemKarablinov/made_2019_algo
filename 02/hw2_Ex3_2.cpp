@@ -15,15 +15,15 @@
 void Merge(int* a, int firstLen, int secondLen);
 
 
-
-void MergeSort(int* a, int start,  int end){
+template<class T, class TLess>
+void MergeSort(T* a, int start,  int end, TLess is_less){
     if (end<=start)
         return;
     
     unsigned int secondPart = (end + start)/2;
     
-    MergeSort(a, start, secondPart);
-    MergeSort(a, secondPart+1,  end);
+    MergeSort(a, start, secondPart, is_less);
+    MergeSort(a, secondPart+1,  end, is_less);
     
     Merge(a+start, 1 + secondPart - start, end - secondPart);
 };
