@@ -18,9 +18,10 @@ struct Node{
     Node(int data){key = data;};
 };
 
+template<typename T>
 class Tree{
     public:
-        void add(int data);
+        void add(T data);
         void print(char* type) const;
         Tree();
         ~Tree();
@@ -30,11 +31,13 @@ class Tree{
         void preorder_print(Node* leaf) const;
 };
 
-Tree::Tree(){
+template<typename T>
+Tree<T>::Tree(){
     root = nullptr;
 }
 
-void Tree:: add(int data){
+template<typename T>
+void Tree<T>:: add(T data){
     if (!root){
         root = new Node(data);
         return;
@@ -58,7 +61,8 @@ void Tree:: add(int data){
         parent->right_child = newnode;
 };
 
-void Tree::print(char* type) const{
+template<typename T>
+void Tree<T>::print(char* type) const{
     if (type == "inorder"){
         inorder_print(root);
     }
@@ -71,7 +75,8 @@ void Tree::print(char* type) const{
     std:: cout << std::endl;
 }
 
-void Tree::inorder_print(Node* root) const{
+template<typename T>
+void Tree<T>::inorder_print(Node* root) const{
     if (!root){
         return;
     };
@@ -94,7 +99,8 @@ void Tree::inorder_print(Node* root) const{
     }
 }
 
-void Tree::preorder_print(Node *root) const{
+template<typename T>
+void Tree<T>::preorder_print(Node *root) const{
     if (!root)
     {
        return;
@@ -113,7 +119,8 @@ void Tree::preorder_print(Node *root) const{
     }
 }
 
-Tree::~Tree(){
+template<typename T>
+Tree<T>::~Tree(){
     if (!root) return;
     std:: stack<Node*> s;
     s.push(root);
@@ -132,7 +139,7 @@ Tree::~Tree(){
 int main(){
     int n;
     std:: cin >> n;
-    Tree mytree;
+    Tree<int> mytree;
     for (int i=0; i<n; i++){
         int data;
         std:: cin >> data;
