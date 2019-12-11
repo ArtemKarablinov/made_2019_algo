@@ -21,15 +21,13 @@ struct Node{
 class Tree{
     public:
         void add(int data);
-        void inorder_print();
-        void inorder_print(Node* leaf);
-
-        void preorder_print();
-        void preorder_print(Node* leaf);
+        void print(char* type);
         Tree();
-        ~Tree(){};
+        ~Tree();
     private:
         Node* root;
+        void inorder_print(Node* leaf);
+        void preorder_print(Node* leaf);
 };
 
 Tree::Tree(){
@@ -60,8 +58,16 @@ void Tree:: add(int data){
         parent->right_child = newnode;
 };
 
-void Tree::inorder_print(){
-    inorder_print(root);
+void Tree::print(char* type){
+    if (type == "inorder"){
+        inorder_print(root);
+    }
+    else if (type == "preorder"){
+        preorder_print(root);
+    }
+    else{
+        std:: cout<<"invalid type of print"<<std:: endl;;
+    }
     std:: cout << std::endl;
 }
 
@@ -88,11 +94,6 @@ void Tree::inorder_print(Node* root){
     }
 }
 
-void Tree::preorder_print(){
-    preorder_print(root);
-    std:: cout << std::endl;
-}
-
 void Tree::preorder_print(Node *root){
     if (!root)
     {
@@ -112,6 +113,10 @@ void Tree::preorder_print(Node *root){
     }
 }
 
+Tree::~Tree(){
+    // if (!root) return;
+    // preorder([](const Node* node){delete node;});
+};
 
 int main(){
     int n;
@@ -122,8 +127,8 @@ int main(){
         std:: cin >> data;
         mytree.add(data);
     };
-    mytree.preorder_print();
-    mytree.inorder_print();
+    mytree.print("preorder");
+    mytree.print("inorder");
     
     
 	return 0;
