@@ -1,4 +1,4 @@
-#include "huffman.h"
+#include "Huffman.h"
 #include <vector>
 #include <iostream>
 #include <queue>
