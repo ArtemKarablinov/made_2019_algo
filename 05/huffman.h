@@ -7,7 +7,6 @@ using byte = unsigned char;
 class IInputStream {
 public:
     IInputStream(std::ifstream& stream_) : stream(stream_) {}
-
     bool Read(byte& val) {
         if (!stream.eof()) {
             stream.get(reinterpret_cast<char&>(val));
@@ -15,11 +14,9 @@ public:
         }
         return false;
     }
-
     ~IInputStream() {
         stream.close();
     }
-
 private:
     std::ifstream& stream;
 };
@@ -27,15 +24,12 @@ private:
 class IOutputStream {
 public:
     IOutputStream(std::ofstream& stream_) : stream(stream_) {}
-
     void Write(byte val) {
         stream << val;
     }
-
     ~IOutputStream() {
         stream.close();
     }
-
 private:
     std::ofstream& stream;
 };
