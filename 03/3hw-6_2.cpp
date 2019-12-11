@@ -21,13 +21,13 @@ struct Node{
 class Tree{
     public:
         void add(int data);
-        void print(char* type);
+        void print(char* type) const;
         Tree();
         ~Tree();
     private:
         Node* root;
-        void inorder_print(Node* leaf);
-        void preorder_print(Node* leaf);
+        void inorder_print(Node* leaf) const;
+        void preorder_print(Node* leaf) const;
 };
 
 Tree::Tree(){
@@ -58,7 +58,7 @@ void Tree:: add(int data){
         parent->right_child = newnode;
 };
 
-void Tree::print(char* type){
+void Tree::print(char* type) const{
     if (type == "inorder"){
         inorder_print(root);
     }
@@ -71,7 +71,7 @@ void Tree::print(char* type){
     std:: cout << std::endl;
 }
 
-void Tree::inorder_print(Node* root){
+void Tree::inorder_print(Node* root) const{
     if (!root){
         return;
     };
@@ -94,7 +94,7 @@ void Tree::inorder_print(Node* root){
     }
 }
 
-void Tree::preorder_print(Node *root){
+void Tree::preorder_print(Node *root) const{
     if (!root)
     {
        return;
