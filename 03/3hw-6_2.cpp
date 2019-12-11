@@ -114,8 +114,19 @@ void Tree::preorder_print(Node *root) const{
 }
 
 Tree::~Tree(){
-    // if (!root) return;
-    // preorder([](const Node* node){delete node;});
+    if (!root) return;
+    std:: stack<Node*> s;
+    s.push(root);
+    while(!s.empty()){
+        Node *temp = s.top();
+        s.pop();
+        if (temp->right_child)
+            s.push(temp->right_child);
+        if (temp->left_child)
+            s.push(temp->left_child); 
+        delete temp;
+    }
+
 };
 
 int main(){
@@ -128,8 +139,6 @@ int main(){
         mytree.add(data);
     };
     mytree.print("preorder");
-    mytree.print("inorder");
-    
-    
+    mytree.print("inorder");    
 	return 0;
 }
