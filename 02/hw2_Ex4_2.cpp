@@ -25,27 +25,35 @@
 
 #include <iostream>
 
-int get_median_of_three(int* a, int size){
+template<typename T>
+struct Compare{
+    bool operator () (T i1, T i2) const {return i1<i2;}
+};
+
+template<typename T, class TLess>
+int get_median_of_three(T* a, int size, TLess Compare){
     if (size < 3){
         return 0;
     };
     
-    if (a[0] > a[size/2]){
-        if (a[0]<a[size-1])
+    if (Compare(a[size/2], a[0])){
+        if (Compare(a[0], a[size-1]))
             return 0;
         else{
             return (a[size-1] < a[0] ? (size - 1) : 0);
         }
     }
     else
-        if (a[size/2] < a[size - 1]) {
+        //if (a[size/2] < a[size - 1]) {
+        if (Compare(a[size/2], a[size-1])){
             return size/2;
         }
         else
-            return (a[size - 1] < a[0] ? 0 : (size - 1));
-};
+            return (Compare(a[size - 1], a[0]) ? 0 : (size - 1));
+}
 
-int get_median_of_rnd(int* a, int size){
+template<typename T>
+int get_median_of_rnd(T* a, int size){
     int a1 = std:: rand() % (size);
     int b2 = std:: rand() % (size);
     int c3 = std:: rand() % (size);
@@ -64,13 +72,15 @@ int get_median_of_rnd(int* a, int size){
             return (a[c3] < a[a1] ? a1 : (c3));
 }
 
-int Partition(int* a, int size){
+template<typename T, class TLess>
+int Partition(T* a, int size, TLess Compare){
     int i=0;
     int j=0;
     int pivot = std:: rand() % (size);
     std:: swap(a[pivot], a[size-1]);
     while(i < size-1){
-        if(a[i] <= a[size-1]){
+        //if(a[i] <= a[size-1]){
+        if (Compare(a[i], a[size-1])){
             std:: swap(a[j], a[i]);
             j++;
         }
@@ -78,22 +88,24 @@ int Partition(int* a, int size){
     }
     std:: swap(a[j], a[size-1]);
     return j;
-};
+}
 
-int find_k(int* a, int size, int k){
+template<typename T, class TLess>
+T find_k(T* a, int size, int k, TLess Compare){
     int left_ptr = 0;
     int right_ptr = size;
-    int pivot_p = Partition(a, size);
-    int temp_pivot_pos = pivot_p;
+    T pivot_p = Partition<T>(a, size, Compare);
+    T temp_pivot_pos = pivot_p;
     
     while(temp_pivot_pos != k){
-        if (temp_pivot_pos > k){
+        //if (temp_pivot_pos > k){
+        if (Compare(k, temp_pivot_pos)){
             right_ptr = left_ptr + pivot_p;
         }
         else {
             left_ptr = left_ptr + pivot_p + 1;
         }
-        pivot_p = Partition(a + left_ptr, right_ptr - left_ptr);
+        pivot_p = Partition<T>(a + left_ptr, right_ptr - left_ptr, Compare);
         temp_pivot_pos = left_ptr + pivot_p;
     }
     return a[k];
@@ -109,7 +121,7 @@ int main(){
     for (int i=0; i<n; i++){
         std:: cin >> arr[i];
     }
-    int result = find_k(arr, n, k);
+    int result = find_k<int>(arr, n, k, Compare<int>());
     std:: cout << result;
 
     delete [] arr;
