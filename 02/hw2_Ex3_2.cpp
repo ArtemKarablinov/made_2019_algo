@@ -12,31 +12,40 @@
 #include <iostream>
 #include <cstring>
 
-void Merge(int* a, int firstLen, int secondLen);
+// template<class TLess>
+// struct IsLess
+// {
+//     bool operator () (TLess i1, TLess i2) const { return i1 < i2; }
+// };
 
 
-template<class T, class TLess>
-void MergeSort(T* a, int start,  int end, TLess is_less){
+template<typename T>
+void Merge(T* a, int firstLen, int secondLen);
+
+template<typename T>
+void MergeSort(T* a, int start,  int end){
     if (end<=start)
         return;
     
     unsigned int secondPart = (end + start)/2;
     
-    MergeSort(a, start, secondPart, is_less);
-    MergeSort(a, secondPart+1,  end, is_less);
+    MergeSort<int>(a, start, secondPart);
+    MergeSort<int>(a, secondPart+1,  end);
     
     Merge(a+start, 1 + secondPart - start, end - secondPart);
 };
 
-void Merge(int* a, int firstLen, int secondLen){
+template<typename T>
+void Merge(T* a, int firstLen, int secondLen){
     
-    int temp_arr[secondLen];
-    std:: memcpy(temp_arr, a+firstLen, sizeof(int)*secondLen);
+    T temp_arr[secondLen];
+    std:: memcpy(temp_arr, a+firstLen, sizeof(T)*secondLen);
     int i = firstLen - 1;
     int j = secondLen - 1;
     int end = firstLen + secondLen - 1;
     while (j>=0){
         if (i >= 0 && a[i] > temp_arr[j]){
+        //if (i>=0 && IsLess(temp_arr[j], a[i])){
             a[end] = a[i];
             i--;
         }
@@ -59,8 +68,8 @@ int main() {
     };
     
     for (int i = 0; i < n; i += k) {
-        MergeSort(arr, i, std:: min(i+ k-1, n-1));
-        Merge(arr + i - k, k, std:: min(k,n-i));
+        MergeSort<int>(arr, i, std:: min(i+ k-1, n-1));
+        Merge<int>(arr + i - k, k, std:: min(k,n-i));
     }
     
     for (int i = 0; i < n; ++i) {
