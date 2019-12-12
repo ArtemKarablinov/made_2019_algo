@@ -11,11 +11,12 @@
 #include<iostream>
 #include<stack>
 
+template <typename T>
 struct Node{
     Node* left_child = nullptr;
     Node* right_child = nullptr;
-    int key;
-    Node(int data){key = data;};
+    T key;
+    Node(T data){key = data;};
 };
 
 template<typename T>
@@ -26,9 +27,9 @@ class Tree{
         Tree();
         ~Tree();
     private:
-        Node* root;
-        void inorder_print(Node* leaf) const;
-        void preorder_print(Node* leaf) const;
+        Node<T>* root;
+        void inorder_print(Node<T>* leaf) const;
+        void preorder_print(Node<T>* leaf) const;
 };
 
 template<typename T>
@@ -39,11 +40,11 @@ Tree<T>::Tree(){
 template<typename T>
 void Tree<T>:: add(T data){
     if (!root){
-        root = new Node(data);
+        root = new Node<T>(data);
         return;
     }
-    Node* current = root;
-    Node* parent = root;
+    Node<T>* current = root;
+    Node<T>* parent = root;
     while(current){
         parent = current;
         if (data < current->key){
@@ -53,7 +54,7 @@ void Tree<T>:: add(T data){
             current = current->right_child;
         }
     }
-    Node* newnode = new Node(data);
+    Node<T>* newnode = new Node<T>(data);
 
     if (data < parent->key)
         parent->left_child = newnode;
@@ -76,13 +77,13 @@ void Tree<T>::print(char* type) const{
 }
 
 template<typename T>
-void Tree<T>::inorder_print(Node* root) const{
+void Tree<T>::inorder_print(Node<T>* root) const{
     if (!root){
         return;
     };
 
-    std:: stack <Node*> s;
-    Node* current = root;
+    std:: stack <Node<T>*> s;
+    Node<T>* current = root;
 
     while(!s.empty() || current){
 
@@ -100,16 +101,16 @@ void Tree<T>::inorder_print(Node* root) const{
 }
 
 template<typename T>
-void Tree<T>::preorder_print(Node *root) const{
+void Tree<T>::preorder_print(Node<T> *root) const{
     if (!root)
     {
        return;
     }
-    std:: stack<Node *> s; 
+    std:: stack<Node<T> *> s; 
     s.push(root);  
     while (!s.empty())
     {
-        Node *temp = s.top();
+        Node<T> *temp = s.top();
         s.pop();
         std::cout << temp->key << " ";
         if (temp->right_child)
@@ -122,10 +123,10 @@ void Tree<T>::preorder_print(Node *root) const{
 template<typename T>
 Tree<T>::~Tree(){
     if (!root) return;
-    std:: stack<Node*> s;
+    std:: stack<Node<T>*> s;
     s.push(root);
     while(!s.empty()){
-        Node *temp = s.top();
+        Node<T> *temp = s.top();
         s.pop();
         if (temp->right_child)
             s.push(temp->right_child);
