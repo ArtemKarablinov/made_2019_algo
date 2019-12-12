@@ -12,31 +12,31 @@
 #include <iostream>
 #include <cstring>
 
-// template<class TLess>
-// struct IsLess
-// {
-//     bool operator () (TLess i1, TLess i2) const { return i1 < i2; }
-// };
-
-
 template<typename T>
-void Merge(T* a, int firstLen, int secondLen);
+struct isLess
+{
+    bool operator () (T i1, T i2) const { return i1 < i2; }
+};
 
-template<typename T>
-void MergeSort(T* a, int start,  int end){
+
+template<typename T, typename TLess>
+void Merge(T* a, int firstLen, int secondLen, TLess isLess);
+
+template<typename T, typename TLess>
+void MergeSort(T* a, int start,  int end, TLess isLess){
     if (end<=start)
         return;
     
     unsigned int secondPart = (end + start)/2;
     
-    MergeSort<int>(a, start, secondPart);
-    MergeSort<int>(a, secondPart+1,  end);
+    MergeSort<int>(a, start, secondPart, isLess);
+    MergeSort<int>(a, secondPart+1,  end, isLess);
     
-    Merge(a+start, 1 + secondPart - start, end - secondPart);
-};
+    Merge(a+start, 1 + secondPart - start, end - secondPart, isLess);
+}
 
-template<typename T>
-void Merge(T* a, int firstLen, int secondLen){
+template<typename T, typename TLess>
+void Merge(T* a, int firstLen, int secondLen, TLess isLess){
     
     T temp_arr[secondLen];
     std:: memcpy(temp_arr, a+firstLen, sizeof(T)*secondLen);
@@ -44,8 +44,7 @@ void Merge(T* a, int firstLen, int secondLen){
     int j = secondLen - 1;
     int end = firstLen + secondLen - 1;
     while (j>=0){
-        if (i >= 0 && a[i] > temp_arr[j]){
-        //if (i>=0 && IsLess(temp_arr[j], a[i])){
+        if (i>=0 && isLess(temp_arr[j], a[i])){
             a[end] = a[i];
             i--;
         }
@@ -68,8 +67,8 @@ int main() {
     };
     
     for (int i = 0; i < n; i += k) {
-        MergeSort<int>(arr, i, std:: min(i+ k-1, n-1));
-        Merge<int>(arr + i - k, k, std:: min(k,n-i));
+        MergeSort<int>(arr, i, std:: min(i+ k-1, n-1), isLess<int>());
+        Merge<int>(arr + i - k, k, std:: min(k,n-i), isLess<int>());
     }
     
     for (int i = 0; i < n; ++i) {
