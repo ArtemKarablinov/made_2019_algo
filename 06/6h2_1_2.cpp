@@ -28,6 +28,8 @@ int BFS_solve(int start, int end, std::vector<std::vector<int> >& edges){
     }
 
     int min_dist = dist[end];
+    if (min_dist==0)
+        return 0;
     int result = 0;
     for (int i=0; i<len_paths[end].size(); i++){
         if (len_paths[end][i]==min_dist)
@@ -40,7 +42,7 @@ int BFS_solve(int start, int end, std::vector<std::vector<int> >& edges){
 int main(){
     int n, k;
     std::cin>> n >> k;
-    std:: vector<std::vector<int> > edges(k);
+    std:: vector<std::vector<int> > edges(k+1);
     int edge1, edge2;
     for (int i=0; i<k; i++){
         std::cin>>edge1 >> edge2;
