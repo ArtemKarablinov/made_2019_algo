@@ -5,38 +5,35 @@
 int BFS_solve(int start, int end, std::vector<std::vector<int> >& edges){
     std::queue<int> q;
 
-    std::vector<int> dist(edges.size(), 0);
+    std::vector<int> dist(edges.size(), 66000);
     std::vector<bool> isVisited(edges.size(), false);
-    std::vector<std::vector<int>> len_paths(edges.size());
+    std::vector<int> len_paths(edges.size(), 0);
 
     isVisited[start] = true;
     q.push(start);
+    dist[start] = 0;
+    len_paths[start] = 1;
     int d = 0;
     while (!q.empty()){
         int current = q.front();
         d = dist[current];
         q.pop();
-        for (int i=0; i<edges[current].size(); i++){
+        for (int i=0; i<edges[current].size(); ++i){
             int neigh = edges[current][i];
-            len_paths[neigh].push_back(d+1);
             if(!isVisited[neigh]){
                 q.push(edges[current][i]);
                 isVisited[neigh] = true;
                 dist[neigh] = d+1;
+                for (int j=0; j<edges[neigh].size(); ++j){
+                    if (dist[edges[neigh][j]] < dist[neigh])
+                        len_paths[neigh] += (int)len_paths[edges[neigh][j]];
+                }
+                if (neigh==end)
+                    break;
             }
         }
     }
-
-    int min_dist = dist[end];
-    if (min_dist==0)
-        return 0;
-    int result = 0;
-    for (int i=0; i<len_paths[end].size(); i++){
-        if (len_paths[end][i]==min_dist)
-            result++;
-
-    }
-    return result;
+    return len_paths[end];
 }
 
 int main(){
