@@ -6,65 +6,79 @@
 #include <fstream>
 
 using std::vector;
+int counter;
 
-void bridge_dfs(int v, 
-                int p,
-                int timer, 
-                vector<vector<int>> &edges, 
-                vector<bool> &isVisited, 
-                vector<int> &tin, 
-                vector<int> &fup){
+std::set<int>& bridge_dfs(int v, 
+                        int p,
+                        int timer, 
+                        vector<vector<int>> &edges, 
+                        vector<bool> &isVisited, 
+                        vector<int> &tin, 
+                        vector<int> &fup, 
+                        std::set<int> &b){
     isVisited[v] = true;
     tin[v] = fup[v] = timer++;
-    for (int i=0; edges[v].size(); ++i){
+    for (int i=0; i<edges[v].size(); ++i){
         int to = edges[v][i];
         if (to==p)
             continue;
         if (isVisited[to])
             fup[v] = fup[v]<tin[to] ? fup[v]:tin[to];
         else {
-            bridge_dfs(to, v, timer, edges, isVisited, tin, fup);
+            bridge_dfs(to, v, timer, edges, isVisited, tin, fup, b);
             fup[v] = fup[v]<fup[to] ? fup[v]:fup[to];
-            if (fup[to] > tin[v])
-                std::cout<< v << to <<std::endl;
+            if (fup[to] > tin[v]){
+                // std::cout<< v << to <<std::endl;
+                b.insert(v);
+            }
         }
     }
-
+    return b;
 }
 
 
-void solve_bridges(std::vector<std::vector<int>> &edges){
+std::set<int>& solve_bridges(vector<vector<int>> &edges, std::set<int> &b){
+
     int timer = 0;
     int p = -1;
-    std::vector<int> enter(edges.size());
-    std::vector<int> ret(edges.size());
-    // std::vector<size_t> color(edges.size(), 0);
-    std::vector<bool> isVisited(edges.size(), false);
+    vector<int> enter(edges.size());
+    vector<int> ret(edges.size());
+    vector<bool> isVisited(edges.size(), false);
     for (int i=0; i<edges.size(); i++)
         if (!isVisited[i])
-            bridge_dfs(i, p, timer, edges, isVisited, enter, ret);
+            b = bridge_dfs(i, -1, timer, edges, isVisited, enter, ret, b);
+    return b;
 }
 
 
 
 int main(){
-    // std::ifstream input("bridges.in");
-    // std::ofstream output("bridges.out");
+    std::ifstream input("bridges.in");
+    std::ofstream output("bridges.out");
     //число вершин и ребер
     int n, k;
-    // input >> n >> k;
+    input >> n >> k;
 
-    std::cin >> n >> k;
-    std::vector<std::vector<int>> edges(k);
-    // std::set<int>* b; // ptr on set of bridges
+    //std::cin >> n >> k;
+    vector<vector<int>> edges(k);
     int v1, v2; // вершины
     for (int i=0; i < k; i++){
-        //input >> v1 >> v2;
-        std::cin>>v1 >> v2;
+        input >> v1 >> v2;
+        //std::cin >> v1 >> v2;
         edges[v1].push_back(v2);
         edges[v2].push_back(v1);
     }
-    solve_bridges(edges);
+    std::set<int> b;
+    b = solve_bridges(edges, b);
+    output << b.size() << std::endl;
+    for (auto i:b){
+        // std::cout << b.size() << std::endl;
+        // std::cout << i << std::endl;
+        output << i << " ";
+    }
+    output << std::endl;
+    input.close();
+    output.close();
 }
 
 
