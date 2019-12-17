@@ -2,7 +2,7 @@
 #include <queue>
 
 template<typename T>
-int BFS_solve(T start, T end, std::vector<std::vector<T> >& edges){
+int BFS_solve(T start, T end, const std::vector<std::vector<T> >& edges){
     std::queue<T> q;
 
     std::vector<int> dist(edges.size(), 66000);
