@@ -1,21 +1,22 @@
 #include <iostream>
 #include <vector>
-#include <stack>
 #include <set>
-#include <unordered_map>
 #include <fstream>
+#include <string>
+#include <unordered_set>
+
 
 using std::vector;
 int counter;
 
-std::set<int>& bridge_dfs(int v, 
+std::set<std::string>& bridge_dfs(int v, 
                         int p,
                         int timer, 
                         vector<vector<int>> &edges, 
                         vector<bool> &isVisited, 
                         vector<int> &tin, 
                         vector<int> &fup, 
-                        std::set<int> &b){
+                        std::set<std::string> &b){
     isVisited[v] = true;
     tin[v] = fup[v] = timer++;
     for (int i=0; i<edges[v].size(); ++i){
@@ -29,7 +30,7 @@ std::set<int>& bridge_dfs(int v,
             fup[v] = fup[v]<fup[to] ? fup[v]:fup[to];
             if (fup[to] > tin[v]){
                 // std::cout<< v << to <<std::endl;
-                b.insert(v);
+                b.insert(std::to_string(v) + "_" + std::to_string(to));
             }
         }
     }
@@ -37,7 +38,7 @@ std::set<int>& bridge_dfs(int v,
 }
 
 
-std::set<int>& solve_bridges(vector<vector<int>> &edges, std::set<int> &b){
+std::set<std::string>& solve_bridges(vector<vector<int>> &edges, std::set<std::string> &b){
 
     int timer = 0;
     int p = -1;
@@ -53,27 +54,32 @@ std::set<int>& solve_bridges(vector<vector<int>> &edges, std::set<int> &b){
 
 
 int main(){
-    std::ifstream input("bridges.in");
+    std::ifstream input("bridges1.in");
     std::ofstream output("bridges.out");
     //число вершин и ребер
     int n, k;
     input >> n >> k;
 
     //std::cin >> n >> k;
-    vector<vector<int>> edges(k);
+    vector<vector<int>> edges(k+1);
+    std::vector<std::string> in_order;
     int v1, v2; // вершины
     for (int i=0; i < k; i++){
         input >> v1 >> v2;
-        //std::cin >> v1 >> v2;
         edges[v1].push_back(v2);
         edges[v2].push_back(v1);
+        in_order.push_back(std::to_string(v1)+ "_" + std::to_string(v2));
     }
-    std::set<int> b;
+    std::set<std::string> b;
+    std::set<int> res;
     b = solve_bridges(edges, b);
+    for (auto i=0; i<in_order.size(); i++){
+        if (b.find(in_order[i])!=b.end())
+            res.insert(i+1);
+    }
     output << b.size() << std::endl;
-    for (auto i:b){
-        // std::cout << b.size() << std::endl;
-        // std::cout << i << std::endl;
+    for (auto i:res){
+        std::cout << i << std::endl;
         output << i << " ";
     }
     output << std::endl;
