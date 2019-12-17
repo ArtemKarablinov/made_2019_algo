@@ -1,9 +1,9 @@
 #include <iostream>
 #include <queue>
 
-
-int BFS_solve(int start, int end, std::vector<std::vector<int> >& edges){
-    std::queue<int> q;
+template<typename T>
+int BFS_solve(T start, T end, std::vector<std::vector<T> >& edges){
+    std::queue<T> q;
 
     std::vector<int> dist(edges.size(), 66000);
     std::vector<bool> isVisited(edges.size(), false);
@@ -15,18 +15,18 @@ int BFS_solve(int start, int end, std::vector<std::vector<int> >& edges){
     len_paths[start] = 1;
     int d = 0;
     while (!q.empty()){
-        int current = q.front();
+        T current = q.front();
         d = dist[current];
         q.pop();
         for (int i=0; i<edges[current].size(); ++i){
-            int neigh = edges[current][i];
+            T neigh = edges[current][i];
             if(!isVisited[neigh]){
                 q.push(edges[current][i]);
                 isVisited[neigh] = true;
                 dist[neigh] = d+1;
                 for (int j=0; j<edges[neigh].size(); ++j){
                     if (dist[edges[neigh][j]] < dist[neigh])
-                        len_paths[neigh] += (int)len_paths[edges[neigh][j]];
+                        len_paths[neigh] += len_paths[edges[neigh][j]];
                 }
                 if (neigh==end)
                     break;
