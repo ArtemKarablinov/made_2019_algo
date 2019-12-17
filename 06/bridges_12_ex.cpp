@@ -1,6 +1,5 @@
 /*
 
-
 Ребро неориентированного графа называется мостом, 
 если удаление этого ребра из графа увеличивает число компонент связности.
 Дан неориентированный граф, требуется найти в нем все мосты.
@@ -12,6 +11,8 @@
 Ребро номер i описывается двумя натуральными числами bi, ei — номерами концов ребра (1 ≤ bi, ei ≤ n).
 
 */
+
+
 #include <iostream>
 #include <vector>
 #include <set>
@@ -42,6 +43,7 @@ std::set<std::string>& bridge_dfs(int v,
             fup[v] = fup[v]<fup[to] ? fup[v]:fup[to];
             if (fup[to] > tin[v]){
                 b.insert(std::to_string(v) + "_" + std::to_string(to));
+                b.insert(std::to_string(to) + "_" + std::to_string(v));
             }
         }
     }
@@ -62,10 +64,8 @@ std::set<std::string>& solve_bridges(vector<vector<int>> &edges, std::set<std::s
     return b;
 }
 
-
-
 int main(){
-    std::ifstream input("bridges1.in");
+    std::ifstream input("bridges2.in");
     std::ofstream output("bridges.out");
     //число вершин и ребер
     int n, k;
@@ -73,13 +73,21 @@ int main(){
 
     vector<vector<int>> edges(k+1);
     std::vector<std::string> in_order;
+    std::unordered_set<std::string> checker;
     int v1, v2; // вершины
     for (int i=0; i < k; i++){
         input >> v1 >> v2;
         edges[v1].push_back(v2);
         edges[v2].push_back(v1);
-        in_order.push_back(std::to_string(v1)+ "_" + std::to_string(v2));
+        in_order.push_back(std::to_string(v1) + "_" + std::to_string(v2));
+        checker.insert(std::to_string(v2) + "_" + std::to_string(v1));
     }
+
+    for (int i=0; i<in_order.size(); i++)
+        if (checker.find(in_order[i])!=checker.end()){
+            in_order[i] = "loool";
+        }
+
     std::set<std::string> b;
     std::set<int> res;
     b = solve_bridges(edges, b);
@@ -87,9 +95,12 @@ int main(){
         if (b.find(in_order[i])!=b.end())
             res.insert(i+1);
     }
-    output << b.size() << std::endl;
+
+    //вывод
+    output << res.size() << std::endl;
+     std::cout << res.size() <<std::endl;
     for (auto i:res){
-        std::cout << i << std::endl;
+         std::cout << i << std::endl;
         output << i << " ";
     }
     output << std::endl;
