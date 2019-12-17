@@ -65,7 +65,7 @@ std::set<std::string>& solve_bridges(vector<vector<int>> &edges, std::set<std::s
 }
 
 int main(){
-    std::ifstream input("bridges2.in");
+    std::ifstream input("bridges1.in");
     std::ofstream output("bridges.out");
     //число вершин и ребер
     int n, k;
@@ -83,6 +83,7 @@ int main(){
         checker.insert(std::to_string(v2) + "_" + std::to_string(v1));
     }
 
+    // защита от кратных ребер
     for (int i=0; i<in_order.size(); i++)
         if (checker.find(in_order[i])!=checker.end()){
             in_order[i] = "loool";
@@ -98,14 +99,15 @@ int main(){
 
     //вывод
     output << res.size() << std::endl;
-     std::cout << res.size() <<std::endl;
+    std::cout << res.size() <<std::endl;
     for (auto i:res){
-         std::cout << i << std::endl;
+        std::cout << i << std::endl;
         output << i << " ";
     }
     output << std::endl;
     input.close();
     output.close();
+    return 0;
 }
 
 
