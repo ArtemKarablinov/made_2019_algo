@@ -13,6 +13,7 @@
 номера концов ребра и его вес соответственно (1 ≤ bi, ei ≤ n, 0 ≤ wi ≤ 100000). 
 
 */
+
 #include <iostream>
 #include <vector>
 #include <tuple>
@@ -20,51 +21,52 @@
 
 using std::vector;
 
-
+template<typename T>
 class DSU{
 private:
-    vector<int> parent;
+    vector<T> parent;
     vector<int> r; //rank
-    int size;
 public:
     explicit DSU(int size):parent(size, -1), r(size, 0){};
-    int find(int val);
-    void merge(int left, int right);
+    T find(T val);
+    void merge(T left, T right);
 };
 
-
+template<typename T>
 class myGraph{
 private:
-    vector<vector<int>> v;
-    vector<std::tuple<int, int, int>> edges;
+    vector<vector<T>> v;
+    vector<std::tuple<T, T, T>> edges;
 public:
-    void AddEdge(int b, int e, int w);
+    void AddEdge(T b, T e, T w);
     int MinWeight();
-    explicit myGraph(int n, int m): v(n), edges(m){};
+    explicit myGraph(T n, T m): v(n), edges(m){};
 };
 
-void myGraph::AddEdge(int b, int e, int w){
+template<typename T>
+void myGraph<T>::AddEdge(T b, T e, T w){
     v[b].push_back(e);
     v[e].push_back(b);
     edges.push_back(std::make_tuple(b, e, w));
 }
 
-int myGraph::MinWeight(){
-    DSU g(v.size());
+template<typename T>
+int myGraph<T>::MinWeight(){
+    DSU<T> g(v.size());
     std::sort(edges.begin(), 
               edges.end(),
-              [](const std::tuple<int, int, int> &mytuple1,
-                 const std::tuple<int, int, int> &mytuple2){
+              [](const std::tuple<T, T, T> &mytuple1,
+                 const std::tuple<T, T, T> &mytuple2){
 
                 return std::get<2>(mytuple1) < std::get<2>(mytuple2); 
               });
 
     int w = 0;
     for (auto &edge : edges){
-        int b = std::get<0>(edge);
-        int e = std::get<1>(edge);
-        int b_ = g.find(b);
-        int e_ = g.find(e);
+        T b = std::get<0>(edge);
+        T e = std::get<1>(edge);
+        T b_ = g.find(b);
+        T e_ = g.find(e);
 
         if (e_ != b_){
             g.merge(b_, e_);
@@ -74,15 +76,17 @@ int myGraph::MinWeight(){
     return w;
 }
 
-int DSU::find(int val){
+template<typename T>
+T DSU<T>::find(T val){
     if(parent[val] == -1)
         return val;
     return parent[val] = find(parent[val]);
 }
 
-void DSU::merge(int left, int right){
-    const int d_left = find(left);
-    const int d_right = find(right);
+template<typename T>
+void DSU<T>::merge(T left, T right){
+    const T d_left = find(left);
+    const T d_right = find(right);
 
     if (r[d_left] == r[d_right]){
         parent[d_right] = d_left;
@@ -99,7 +103,7 @@ void DSU::merge(int left, int right){
 int main(){
     int n, m;
     std::cin >> n >> m;
-    myGraph edges(n, m);
+    myGraph<int> edges(n, m);
 
     for (int i=0; i<m; i++){
         int b, e, w;
