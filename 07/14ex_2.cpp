@@ -38,13 +38,13 @@ private:
     vector<vector<T>> v;
     vector<std::tuple<T, T, T>> edges;
 public:
-    void AddEdge(T b, T e, T w);
+    void AddEdge(int b, int e, T w);
     int MinWeight();
     explicit myGraph(T n, T m): v(n), edges(m){};
 };
 
 template<typename T>
-void myGraph<T>::AddEdge(T b, T e, T w){
+void myGraph<T>::AddEdge(int b, int e, T w){
     v[b].push_back(e);
     v[e].push_back(b);
     edges.push_back(std::make_tuple(b, e, w));
