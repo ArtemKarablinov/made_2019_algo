@@ -18,7 +18,7 @@
 
 using std::string;
 
-std::vector<size_t> KMP(const string pattern,  const string text){
+std::vector<size_t> KMP(const string& pattern,  const string& text){
 
     std::vector<size_t> prefix(pattern.length(), 0);
     std::vector<size_t> result;
