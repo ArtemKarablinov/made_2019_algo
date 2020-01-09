@@ -10,6 +10,7 @@
 
 #include<iostream>
 #include<stack>
+#include <functional>
 
 template <typename T>
 struct Node{
@@ -20,16 +21,19 @@ struct Node{
 };
 
 template<typename T>
+using TVisitor = std::function<void(Node<T> *node)>;
+
+
+template<typename T>
 class Tree{
     public:
         void add(T data);
-        void print(char* type) const;
+        void print() const;
         Tree();
         ~Tree();
     private:
         Node<T>* root;
-        void inorder_print(Node<T>* leaf) const;
-        void preorder_print(Node<T>* leaf) const;
+        void inorder(Node<T>* leaf, const TVisitor<T>& visit) const;
 };
 
 template<typename T>
@@ -63,21 +67,13 @@ void Tree<T>:: add(T data){
 };
 
 template<typename T>
-void Tree<T>::print(char* type) const{
-    if (type == "inorder"){
-        inorder_print(root);
-    }
-    else if (type == "preorder"){
-        preorder_print(root);
-    }
-    else{
-        std:: cout<<"invalid type of print"<<std:: endl;;
-    }
-    std:: cout << std::endl;
+void Tree<T>::print() const{
+    inorder(root, [](const Node<T>* root){ std::cout << root->key << " ";});
+    std::cout << std::endl;
 }
 
 template<typename T>
-void Tree<T>::inorder_print(Node<T>* root) const{
+void Tree<T>::inorder(Node<T>* root, const TVisitor<T>& visit) const{
     if (!root){
         return;
     };
@@ -94,48 +90,17 @@ void Tree<T>::inorder_print(Node<T>* root) const{
 
         current = s.top();
         s.pop();
-        std:: cout<<current->key<<" ";
+        visit(current);
 
         current = current-> right_child;
     }
 }
-
-template<typename T>
-void Tree<T>::preorder_print(Node<T> *root) const{
-    if (!root)
-    {
-       return;
-    }
-    std:: stack<Node<T> *> s; 
-    s.push(root);  
-    while (!s.empty())
-    {
-        Node<T> *temp = s.top();
-        s.pop();
-        std::cout << temp->key << " ";
-        if (temp->right_child)
-            s.push(temp->right_child);
-        if (temp->left_child)
-            s.push(temp->left_child); 
-    }
-}
-
+ 
 template<typename T>
 Tree<T>::~Tree(){
     if (!root) return;
-    std:: stack<Node<T>*> s;
-    s.push(root);
-    while(!s.empty()){
-        Node<T> *temp = s.top();
-        s.pop();
-        if (temp->right_child)
-            s.push(temp->right_child);
-        if (temp->left_child)
-            s.push(temp->left_child); 
-        delete temp;
-    }
-
-};
+    inorder(root, [](Node<T>* node){ delete node;});
+}
 
 int main(){
     int n;
@@ -146,7 +111,7 @@ int main(){
         std:: cin >> data;
         mytree.add(data);
     };
-    mytree.print("preorder");
-    mytree.print("inorder");    
+
+    mytree.print();    
 	return 0;
 }
