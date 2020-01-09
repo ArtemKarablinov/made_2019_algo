@@ -6,7 +6,7 @@
 
 using std::vector;
 
-static constexpr double EPS = 1e-15;
+static constexpr double EPS = 1e-10;
 
 struct Point{
     double x;
