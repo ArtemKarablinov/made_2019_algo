@@ -11,16 +11,14 @@ using std::vector;
 
 struct Node
 {  
-    int go[256];
     int parent;
     char in;   
     int length_ = 0;
     int pat_id = -1;
     int suffix = -1;
     int term_link = -1;
-    Node(int parent_, char in_) : parent(parent_), in(in_) {
-        std::memset(go, -1, sizeof(go));
-    }
+    int go[128];
+    Node(int parent_, char in_) : parent(parent_), in(in_) { std::memset(go, -1, sizeof(go));}
 };
 
 class AhoKar{
@@ -35,12 +33,14 @@ private:
     void process_results(int pos, int cur, T func);
 
 public:
-    AhoKar() {
-        nodes.emplace_back(0, '\0');
-    }
+    AhoKar();
     int Add(const string&);
     template<typename T>
     void FindIn(const string&, T func);
+};
+
+AhoKar::AhoKar() {
+    nodes.emplace_back(0, 0);
 };
 
 int AhoKar::Add(const string& str){
